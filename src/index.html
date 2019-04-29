@@ -9,13 +9,25 @@
 </head>
 <body>
   <h1>Task List</h1>
-    <form id="task-form">
-      <div class="input-field">
-        <label for="task">task:</label>
-        <input type="text" name="task" id="task">
-      </div>
-      <input type="submit" value="Add Task" id="btn-add-task">
-    </form>
+  <form id="taskForm">
+    <div class="inputField">
+      <label for="task">task:</label>
+      <input type="text" name="task" id="task">
+    </div>
+    <input type="submit" value="Add Task" id="btnAddTask">
+  </form>
+  <ul id="taskList">
+    <li class="taskListItem">
+      <span>Do shopping</span>
+      <button class="isDone">Done</button>
+      <button class="removeTask">X</button>
+    </li>
+    <li class="taskListItem">
+      <span>Clean room</span>
+      <button class="isDone">Done</button>
+      <button class="removeTask">X</button>
+    </li>
+  </ul>
   <script src="bundle.js"></script>
 </body>
 </html>
