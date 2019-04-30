@@ -5,11 +5,11 @@ const $taskList = document.querySelector('#taskList');
 loadEventListeners();
 
 function loadEventListeners() {
-    taskForm.addEventListener('submit', addTask);
+    $taskForm.addEventListener('submit', addTask);
 }
 
 function addTask(e) {
-    const taskValue = taskInput.value;
+    const taskValue = $taskInput.value;
     const element = `
     <li>
         <span>${taskValue}</span>
@@ -17,8 +17,8 @@ function addTask(e) {
         <button class="removeTask">X</button>
     </li>`;
 
-    taskList.insertAdjacentHTML('beforeend', element);
-    taskInput.value = '';
+    $taskList.insertAdjacentHTML('beforeend', element);
+    $taskInput.value = '';
 
     e.preventDefault();
 }
