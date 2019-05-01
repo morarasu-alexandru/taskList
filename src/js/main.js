@@ -1,8 +1,10 @@
+import {findIndex, createTaskElem, createRenameTaskElem, createRenamedTaskElem} from './helpFunctions';
+
 const $taskInput = document.querySelector('#task');
 const $taskForm = document.querySelector('#taskForm');
 const $taskList = document.querySelector('#taskList');
 
-const taskList = [];
+var taskList = [];
 
 loadEventListeners();
 
@@ -20,31 +22,25 @@ function doneOrNotDoneTask(e) {
 
     if(target.classList.contains('isDone')) {
         const textElement = target.parentElement.firstElementChild;
+        const liIndex = findIndex(e.target.parentElement);
 
         if (textElement.classList.contains('done')) {
             textElement.classList.remove('done');
-            target.textContent = 'Done'
+            target.textContent = 'Done';
+            taskList[liIndex].isDone = false;
         } else {
             textElement.classList.add('done');
             target.textContent = 'Not done';
+            taskList[liIndex].isDone = true;
         }
     }
-
-
 }
 
 function addTask(e) {
     const taskValue = $taskInput.value;
-    const element = `
-    <li>
-        <span>${taskValue}</span>
-        <button class="renameTask">Rename</button>
-        <button class="isDone">Done</button>
-        <button class="removeTask">X</button>
-    </li>`;
 
-    $taskList.insertAdjacentHTML('beforeend', element);
-    taskList.push({isDone: false, value: taskValue});
+    $taskList.insertAdjacentHTML('beforeend', createTaskElem(taskValue));
+    taskList.push({value: taskValue, isDone: false});
     $taskInput.value = '';
 
     e.preventDefault();
@@ -63,45 +59,41 @@ function renameTask(e) {
     if (e.target.classList.contains('renameTask')) {
         const $li = e.target.parentElement;
         const liIndex = findIndex($li);
-
         const taskValue = $li.firstElementChild.textContent;
-        const element = `
-        <input type='text' value="${taskValue}" />
-        <button class="acceptTask">Accept</button>
-        <button class="cancelTask">Cancel</button>
-        `;
 
         while($li.firstChild) {
             $li.removeChild($li.firstChild);
         }
 
-        $li.insertAdjacentHTML('beforeend', element);
+        $li.insertAdjacentHTML('beforeend', createRenameTaskElem(taskValue));
         taskList[liIndex].value = taskValue;
     }
 }
 
 function acceptRenameTask(e) {
-    if (e.target.classList.contains('renameTask')) {
+    if (e.target.classList.contains('acceptTask')) {
+        const $li = e.target.parentElement;
         const liIndex = findIndex($li);
+        const inputValue = $li.firstChild.value;
 
+        while($li.firstChild) {
+            $li.removeChild($li.firstChild);
+        }
 
+        taskList[liIndex].value = liIndex;
+        $li.insertAdjacentHTML('beforeend', createRenamedTaskElem(inputValue));
     }
 }
 
 function cancelRenameTask(e) {
-    if (e.target.classList.contains('renameTask')) {
+    if (e.target.classList.contains('cancelTask')) {
+        const $li = e.target.parentElement;
         const liIndex = findIndex($li);
 
+        while($li.firstChild) {
+            $li.removeChild($li.firstChild);
+        }
 
+        $li.insertAdjacentHTML('beforeend', createRenamedTaskElem(taskList[liIndex].value));
     }
 }
-
-function findIndex(el) {
-    if (!el) return -1;
-    var i = 0;
-    while ((el = el.previousSibling) != null ) {
-        i++
-    }
-    return i/2 - 1;
-}
-
