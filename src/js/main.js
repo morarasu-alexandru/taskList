@@ -6,6 +6,7 @@ loadEventListeners();
 
 function loadEventListeners() {
     $taskForm.addEventListener('submit', addTask);
+    $taskList.addEventListener('click', removeTask);
 }
 
 function addTask(e) {
@@ -23,3 +24,8 @@ function addTask(e) {
     e.preventDefault();
 }
 
+function removeTask(e) {
+    if(e.target.classList.contains('removeTask')) {
+        e.target.parentElement.remove();
+    }
+}
