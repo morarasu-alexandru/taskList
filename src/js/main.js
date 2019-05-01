@@ -7,6 +7,25 @@ loadEventListeners();
 function loadEventListeners() {
     $taskForm.addEventListener('submit', addTask);
     $taskList.addEventListener('click', removeTask);
+    $taskList.addEventListener('click', doneOrNotDoneTask);
+}
+
+function doneOrNotDoneTask(e) {
+    const target = e.target;
+
+    if(target.classList.contains('isDone')) {
+        const textElement = target.parentElement.firstElementChild;
+
+        if (textElement.classList.contains('done')) {
+            textElement.classList.remove('done');
+            target.textContent = 'Done'
+        } else {
+            textElement.classList.add('done');
+            target.textContent = 'Not done';
+        }
+    }
+
+
 }
 
 function addTask(e) {
